@@ -41,18 +41,26 @@ export const createIfNotExists = async (guildId) => {
 }
 
 /**
+ * Alias for createIfNotExists as it also returns the document if it already existed
+ */
+export const getAll = async (guildId) => {
+    return createIfNotExists(guildId);
+}
+
+/**
  * @param {string} guildId
  * @param {Object} update
  * @example
  * updateServer("506546161692180480", { prefix: "!" });
- * @returns {Promise<mongoose.Query>}
+ * @returns {Promise<Object>} The new server document on the MongoDB server
  */
 export const updateServer = (guildId, update) => {
-    return Server.findOneAndUpdate({ guildId }, update);
+    return Server.findOneAndUpdate({ guildId }, update, { new: true }).exec();
 }
 
 export default {
     createBulkUnique,
     createIfNotExists,
+    getAll,
     updateServer
 }
