@@ -10,6 +10,6 @@ const servers = new mongoose.Schema({
         }
     ],
     joinDate: { type: Date, default: Date.now }
-}, { collection: 'Servers' });
+});
 
-export default mongoose.model('Servers', servers);
+export default mongoose.model('servers', servers);
