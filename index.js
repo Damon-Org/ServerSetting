@@ -3,12 +3,11 @@ import ServerModule from './structures/ServerModule.js'
 import ServerModel from './structures/models/ServerModel.js'
 
 export default class ServerSetting extends ServerModule {
-    _ready = false;
     _data = null;
 
     /**
      * @param {Main} main
-     * @param {Server}
+     * @param {Server} server
      */
     constructor(main, server) {
         super(main, server);
@@ -25,7 +24,7 @@ export default class ServerSetting extends ServerModule {
             ]
         });
 
-        if (this.server !== -1 && this.modules.mongodb.ready) this._mongoReady();
+        if (this.server !== -1 && this.modules.mongodb.ready) this.getAll();
     }
 
     get data() {
@@ -36,13 +35,6 @@ export default class ServerSetting extends ServerModule {
 /**
  * Server Methods
  */
-    /**
-     * @private
-     */
-    _mongoReady() {
-        return this.getAll();
-    }
-
     /**
      * @returns {Promise<void>} Returns when Mongo fetched data from the server
      */
