@@ -43,9 +43,7 @@ export const createIfNotExists = async (guildId) => {
 /**
  * Alias for createIfNotExists as it also returns the document if it already existed
  */
-export const getAll = async (guildId) => {
-    return createIfNotExists(guildId);
-}
+export const getAll = createIfNotExists;
 
 /**
  * @param {string} guildId
