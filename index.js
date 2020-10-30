@@ -13,8 +13,11 @@ export default class ServerSetting extends ServerModule {
         super(main, server);
 
         this.register(ServerSetting, {
-            name: 'setting',
-            scope: 'server',
+            name: 'serverSettings',
+            scope: {
+                group: 'server',
+                name: 'settings'
+            },
             requires: [],
             events: [
                 {
@@ -23,8 +26,6 @@ export default class ServerSetting extends ServerModule {
                 }
             ]
         });
-
-        if (this.server !== -1 && this.modules.mongodb.ready) this.getAll();
     }
 
     get data() {
@@ -55,6 +56,11 @@ export default class ServerSetting extends ServerModule {
         this._call = null;
     }
 
+    initScope() {
+        if (this.modules.mongodb.ready) this.getAll();
+        else this.modules.mongodb.on('ready', () => this.getAll());
+    }
+
     /**
      * @param {Object} update
      * @returns {Promise<void>}
@@ -80,11 +86,11 @@ export default class ServerSetting extends ServerModule {
      * @param {Server} server
      */
     async _getPrefix(server) {
-        await server.setting.awaitData();
+        await server.settings.awaitData();
 
-        if (!server.setting.data.prefix) return this.globalStorage.get('prefix');
+        if (!server.settings.data.prefix) return this.globalStorage.get('prefix');
 
-        return server.setting.data.prefix;
+        return server.settings.data.prefix;
     }
 
     /**
@@ -97,7 +103,7 @@ export default class ServerSetting extends ServerModule {
     /**
      * Is not called when initiated for a server
      */
-    setup() {
+    init() {
         this.modules.commandHandler.setPrefixSupplier((...args) => this._getPrefix(...args));
 
         return true;
