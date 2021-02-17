@@ -21,6 +21,11 @@ export default class ServerSetting extends ServerModule {
             requires: [],
             events: [
                 {
+                    name: 'guildeCreate',
+                    call: '_onGuildJoin'
+
+                },
+                {
                     name: 'ready',
                     call: '_onReady'
                 }
@@ -91,6 +96,14 @@ export default class ServerSetting extends ServerModule {
         if (!server.settings.data.prefix) return this.globalStorage.get('prefix');
 
         return server.settings.data.prefix;
+    }
+
+    /**
+     * @private
+     * @param {Guild} guild 
+     */
+    _onGuildJoin(guild) {
+        ServerModel.createIfNotExists(guild.id);
     }
 
     /**
