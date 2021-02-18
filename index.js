@@ -21,7 +21,7 @@ export default class ServerSetting extends ServerModule {
             requires: [],
             events: [
                 {
-                    name: 'guildeCreate',
+                    name: 'guildCreate',
                     call: '_onGuildJoin'
 
                 },
