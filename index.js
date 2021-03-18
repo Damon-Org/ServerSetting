@@ -88,17 +88,6 @@ export default class ServerSetting extends ServerModule {
     }
 
     /**
-     * @param {Server} server
-     */
-    async _getPrefix(server) {
-        await server.settings.awaitData();
-
-        if (!server.settings.data.prefix) return this.globalStorage.get('prefix');
-
-        return server.settings.data.prefix;
-    }
-
-    /**
      * @private
      * @param {Guild} guild 
      */
@@ -114,10 +103,21 @@ export default class ServerSetting extends ServerModule {
     }
 
     /**
+     * @param {Server} server
+     */
+    async getPrefix(server) {
+        await server.settings.awaitData();
+
+        if (!server.settings.data.prefix) return this.globalStorage.get('prefix');
+
+        return server.settings.data.prefix;
+    }
+
+    /**
      * Is not called when initiated for a server
      */
     init() {
-        this.modules.commandHandler.setPrefixSupplier((...args) => this._getPrefix(...args));
+        this.modules.commandHandler.setPrefixSupplier((...args) => this.getPrefix(...args));
 
         return true;
     }
