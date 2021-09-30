@@ -89,7 +89,7 @@ export default class ServerSetting extends ServerModule {
 
     /**
      * @private
-     * @param {Guild} guild 
+     * @param {Guild} guild
      */
     _onGuildJoin(guild) {
         ServerModel.createIfNotExists(guild.id);
@@ -118,6 +118,8 @@ export default class ServerSetting extends ServerModule {
      */
     init() {
         this.modules.commandHandler.setPrefixSupplier((...args) => this.getPrefix(...args));
+
+        this.log.verbose('SERVER_SETTINGS', 'Set prefix supplier.');
 
         return true;
     }
