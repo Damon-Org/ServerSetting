@@ -48,7 +48,7 @@ export default class ServerSetting extends ServerModule {
         return new Promise((resolve, reject) => {
             if (this._data) return resolve();
 
-            this._call = (...args) => resolve(...args);
+            this._call = resolve;
         });
     }
 
@@ -63,7 +63,7 @@ export default class ServerSetting extends ServerModule {
 
     initScope() {
         if (this.modules.mongodb.ready) this.getAll();
-        else this.modules.mongodb.on('ready', () => this.getAll());
+        else this.modules.mongodb.on('ready', this.getAll.bind(this));
     }
 
     /**
@@ -117,7 +117,7 @@ export default class ServerSetting extends ServerModule {
      * Is not called when initiated for a server
      */
     init() {
-        this.modules.commandHandler.setPrefixSupplier((...args) => this.getPrefix(...args));
+        this.modules.commandHandler.setPrefixSupplier(this.getPrefix.bind(this));
 
         this.log.verbose('SERVER_SETTINGS', 'Set prefix supplier.');
 
