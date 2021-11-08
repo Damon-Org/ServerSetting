@@ -72,7 +72,6 @@ export default class ServerSetting extends ServerModule {
      */
     async update(update) {
         this._data = await ServerModel.updateServer(this.server.id, update);
-        console.log(this._data);
     }
 
 /**
