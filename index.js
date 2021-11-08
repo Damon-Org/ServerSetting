@@ -46,7 +46,7 @@ export default class ServerSetting extends ServerModule {
      */
     awaitData() {
         return new Promise((resolve, reject) => {
-            if (this._data) return resolve();
+            if (this._data) return resolve(this._data);
 
             this._call = resolve;
         });
@@ -72,6 +72,7 @@ export default class ServerSetting extends ServerModule {
      */
     async update(update) {
         this._data = await ServerModel.updateServer(this.server.id, update);
+        console.log(this._data);
     }
 
 /**
