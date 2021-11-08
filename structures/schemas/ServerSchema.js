@@ -11,7 +11,10 @@ const servers = new mongoose.Schema({
             channelId: String
         }
     ],
-    joinDate: { type: Date, default: Date.now }
+    joinDate: { type: Date, default: Date.now },
+    reminders: {
+        permissions: { type: Date, default: 0 }
+    }
 });
 
 export default mongoose.model('servers', servers);
