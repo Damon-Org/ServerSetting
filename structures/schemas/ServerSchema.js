@@ -12,6 +12,9 @@ const servers = new mongoose.Schema({
         }
     ],
     joinDate: { type: Date, default: Date.now },
+    music_system: {
+        volume: { type: Number }
+    },
     reminders: {
         permissions: { type: Date, default: 0 }
     }
